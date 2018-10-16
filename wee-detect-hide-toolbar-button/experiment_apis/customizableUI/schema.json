@@ -1,0 +1,19 @@
+[
+  {
+    "namespace": "customizableUI",
+    "events": [
+      {
+        "name": "onWidgetRemoved",
+        "type": "function",
+        "description": "Description of the event",
+        "parameters": [
+          {
+            "name": "widgetId",
+            "description": "Description of the first callback parameter",
+            "type": "string"
+          }
+        ]
+      }
+    ]
+  }
+]
