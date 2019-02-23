@@ -1,5 +1,17 @@
 # Hidden WE with Options page
 
+## Update
+
+This approach has been scrapped in favor of attempting to fix [Bug 1292234](https://bugzilla.mozilla.org/show_bug.cgi?id=1292234).
+
+**Details:**
+* Given that the Options page approach requires the developer to create the Options page from scratch (granted we could provide a boilerplate, but this is still an extra task, and the boilerplate may not cover every situation), it would be wiser if we could bootstrap off of the Storage tab UI in the add-on devtools, where for supported storage options, storage keys/values can be viewed, added and modified easily.
+* Unfortunately, only `window.localStorage` and `window.indexedDB` are supported in the Storage tab currently, notably not WE `browser.storage.local` (see [Bug 1292234](https://bugzilla.mozilla.org/show_bug.cgi?id=1292234)), and it would be unwise to simply replace the extension storage (`browser.storage.local`) with the more general web API storage solutions (`window.localStorage` or `window.indexedDB`).
+  * For the case of `window.localStorage`, the reasons why are well-explained [here](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/storage).
+  * Similarly, while IndexedDB fairs better in some regards, its values are still scoped to a specific domain (so like localStorage, it [wouldn't work in content scripts](https://bugzilla.mozilla.org/show_bug.cgi?id=1292234#c2)), it can still be cleared unexpectedly by the user and additionally, it's API is much more complicated than `storage.local` and would be overkill for a simple key-value store.
+
+## About
+
 This extension is a proof-of-concept for a hidden[1] Mozilla extension to expose the [Options page](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/user_interface/Options_pages) in `about:debugging` rather than in `about:addons`. See [Motivation](#motivation).
 
 Based largely on the [Favorite Color](https://github.com/mdn/webextensions-examples/tree/master/favourite-colour) example extension. Shows the extension's browserAction badge color and badge text in the about:addons page for the add-on and stores their values in the extension's local storage.
