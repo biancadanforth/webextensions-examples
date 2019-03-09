@@ -3,6 +3,10 @@
   "background": {
       "scripts": ["background.js"]
   },
+  "browser_action": {
+    "default_title": "Bug 1292234",
+    "default_popup": "popup.html"
+  },
   "description": "Test WE for Bug 1292234; simply sets some keys/values in browser.storage.local",
   "homepage_url": "https://github.com/biancadanforth/webextensions-examples/tree/master/bug-1292234-test-we",
   "manifest_version": 2,
