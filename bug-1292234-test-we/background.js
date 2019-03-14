@@ -1,5 +1,11 @@
 (async function main() {
 
+  // Open an extension page in a new tab to make use of the Browser Content Toolbox
+  // to be able to debug the storage actor script:
+  // (mozilla-central/devtools/server/actors/storage.js)
+  browser.tabs.create({url: browser.extension.getURL('extension-page.html')});
+
+
   // This is what our customer data looks like.
   const customerData = [
     { ssn: "444-44-4444", name: "Bill", age: 35, email: "bill@company.com" },
