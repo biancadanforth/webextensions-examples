@@ -1,7 +1,14 @@
 (async function main() {
 
   // Workaround to avoid using Babel for now
-  const config = (await import('./config.js')).default;
+  const config = {
+    domainList: {
+      label: "List of domains (one per line) to enable reader mode for: ",
+      placeholder: `www.techcrunch.com
+www.npr.com
+www.ycombinator.com`,
+    },
+  };
 
   // Should be an array of match patterns (strings)
   let domainList = await browser.storage.local.get("domainList").domainList || [];

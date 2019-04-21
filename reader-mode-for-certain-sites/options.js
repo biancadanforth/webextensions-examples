@@ -1,6 +1,13 @@
-import config from './config.js';
-
 (async function main() {
+  // Workaround to avoid using Babel for now
+  const config = {
+    domainList: {
+      label: "List of domains (one per line) to enable reader mode for: ",
+      placeholder: `techcrunch.com
+nytimes.com
+www.npr.com`,
+    },
+  };
 
   const formEle = document.querySelector('form');
 
@@ -49,8 +56,12 @@ import config from './config.js';
       const storageItem = await browser.storage.local.get(key);
       // Convert match patterns to domain names for displaying in the Options page
       // (e.g. "*://*.domain.com/*" becomes "domain.com")
-      let domainList = storageItem[key].map(ele => ele.replace(/\/\*$/, '').replace(/^\*:\/\/\*\./, '')).join('\n');
-      document.querySelector(`#${key}`).value = domainList || "";
+      if (storageItem[key]) {
+        let domainList = storageItem[key].map(ele => ele.replace(/\/\*$/, '').replace(/^\*:\/\/\*\./, '')).join('\n');
+        document.querySelector(`#${key}`).value = domainList;
+      } else {
+        document.querySelector(`#${key}`).value = "";
+      }
     }
   }
 
