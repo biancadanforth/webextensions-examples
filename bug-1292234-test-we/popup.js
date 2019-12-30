@@ -5,11 +5,30 @@
 // it temporarily)
 browser.tabs.create({url: browser.extension.getURL('extension-page.html')});
 
-const customerData = [
-  { ssn: "666-66-6666", name: "Linda", age: 39, email: "linda@company.com" },
-  { ssn: "777-77-7777", name: "Greg", age: 31, email: "greg@home.org" }
-];
+(async function main() {
+  const supportedIDBData = {  
+    // undef: undefined,
+    null: null,
+    bool: true,
+    num: 4,
+    str: "hi",
+    // bigint: 1n,
+    // date: new Date(0),
+    // regexp: /regexp/,
+    obj: {a: 123},
+    arr: [1, 2],
+    // No idea how to stringify the types of values below for displaying in the storage panel,
+    // but they are supported by the WE storage API.
+    // arrBuffer: new ArrayBuffer(8),
+    // map: (new Map()).set("a", "b"),
+    // "set": (new Set()).add(1).add("a"),
+  };
 
-for (const entry of customerData) {
-  browser.storage.local.set({[entry.ssn]: entry});
-}
+
+  await browser.storage.local.set(supportedIDBData);
+
+  const data = await browser.storage.local.get();
+  for (const [key, value] of Object.entries(data)) {
+    console.log(key, value, typeof value);
+  }
+})();

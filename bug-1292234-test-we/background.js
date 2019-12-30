@@ -5,18 +5,21 @@
   // (mozilla-central/devtools/server/actors/storage.js)
   browser.tabs.create({url: browser.extension.getURL('extension-page.html')});
 
+  const regexp = new RegExp('\\w+');
 
   // This is what our customer data looks like.
   const customerData = [
-    { ssn: "444-44-4444", name: "Bill", age: 35, email: "bill@company.com" },
+    { ssn: "444-44-4444", name: "Bill", age: 35, email: "bill@company.com", regexp },
     { ssn: "555-55-5555", name: "Donna", age: 32, email: "donna@home.org" }
   ];
   
   // Populate extension local storage as similarly as possible to how the
   // same data populates IndexedDB storage
   for (const entry of customerData) {
-    browser.storage.local.set({[entry.ssn]: entry});
+    await browser.storage.local.set({[entry.ssn]: entry});
   }
+
+  await browser.storage.local.set({regexp});
 
   // Populate window.indexedDB storage
   // (Put something (e.g. object literal) in window.indexedDB to compare
